@@ -18,6 +18,11 @@ class Order(models.Model):
     def total_quantity(self):
         return sum([op.quantity for op in self.order_products.all()])
 
+    def update_total_price(self):
+        with transaction.atomic():
+            self.total_price = sum([op.price for op in self.order_products.all()])
+            self.save()
+
 
 @receiver(post_save, sender=Order)
 def order_create_signal(sender, instance, created, **kwargs):
@@ -35,11 +40,8 @@ class OrderProduct(models.Model):
 
 
 @receiver(post_save, sender=OrderProduct)
-def update_order_total_price(sender, instance, **kwargs):
-    with transaction.atomic():
-        order = instance.order
-        order.total_price = sum([op.price for op in order.order_products.all()])
-        order.save()
+def update_order_total_price_signal(sender, instance, **kwargs):
+    instance.update_total_price()
 
 
 @receiver(pre_save, sender=OrderProduct)
