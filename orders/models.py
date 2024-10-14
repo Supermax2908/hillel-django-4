@@ -1,9 +1,9 @@
 import uuid
+
+from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-
-from products.models import Product
 
 
 class Order(models.Model):
@@ -12,7 +12,7 @@ class Order(models.Model):
     total_price = models.FloatField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    products = models.ManyToManyField(Product, through='OrderProduct')
+    products = models.ManyToManyField('products.Product', through='OrderProduct')
 
     @property
     def total_quantity(self):
@@ -31,17 +31,24 @@ def order_create_signal(sender, instance, created, **kwargs):
         send_order_creation_notification.delay(instance.pk)
         update_orders_report.delay()
 
+    cache.delete(f'orders:{instance.user_id}')
+
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_products')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=3)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 @receiver(post_save, sender=OrderProduct)
 def update_order_total_price_signal(sender, instance, **kwargs):
-    instance.update_total_price()
+    instance.order.update_total_price()
+
+
+@receiver(post_save, sender=OrderProduct)
+def clear_cache(sender, instance, **kwargs):
+    cache.delete(f'orders:{instance.order.user_id}')
 
 
 @receiver(pre_save, sender=OrderProduct)

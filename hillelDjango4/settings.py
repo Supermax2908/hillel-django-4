@@ -303,3 +303,27 @@ LOGGING = {
         }
     }
 }
+
+
+# # # Local memory cache
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#     }
+# }
+
+# # File based cache
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': BASE_DIR / 'cache',
+#     }
+# }
+
+# Redis cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/1',
+    }
+}
