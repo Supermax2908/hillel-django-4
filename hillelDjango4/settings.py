@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'storages',
     # Local (self-written) apps
     'products',
     'orders',
@@ -327,3 +328,12 @@ CACHES = {
         'LOCATION': 'redis://localhost:6379/1',
     }
 }
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+
+AWS_STORAGE_BUCKET_NAME = 'hillel-django-static'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_LOCATION = 'static'
+AWS_QUERYSTRING_AUTH = False
