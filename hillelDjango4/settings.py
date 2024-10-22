@@ -332,8 +332,11 @@ CACHES = {
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
+# Static & Media files
 AWS_STORAGE_BUCKET_NAME = 'hillel-django-static'
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_LOCATION = 'static'
-AWS_QUERYSTRING_AUTH = False
+DEFAULT_FILE_STORAGE = 'hillelDjango4.storages.MediaStorage'
+STATICFILES_STORAGE = 'hillelDjango4.storages.StaticStorage'
+
+# Using raw URLs for S3 (without query string auth)
+# AWS_QUERYSTRING_AUTH = False

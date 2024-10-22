@@ -37,6 +37,12 @@ class ProductAdmin(admin.ModelAdmin):
         ('Relations', {
             'fields': ('category', 'tags')
         }),
+        ('Images', {
+            'fields': ('image',)
+        }),
+        ('Files', {
+            'fields': ('manual',)
+        }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at')
         }),

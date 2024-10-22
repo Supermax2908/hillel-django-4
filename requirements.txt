@@ -2,6 +2,8 @@ amqp==5.2.0
 aniso8601==9.0.1
 asgiref==3.8.1
 billiard==4.2.0
+boto3==1.35.39
+botocore==1.35.39
 cachetools==5.5.0
 celery==5.4.0
 certifi==2024.7.4
@@ -19,6 +21,7 @@ django-allauth==65.0.2
 django-cors-headers==4.4.0
 django-filter==24.3
 django-redis==5.4.0
+django-storages==1.14.4
 djangorestframework==3.15.2
 drf-yasg==1.21.7
 Faker==27.0.0
@@ -36,11 +39,13 @@ httplib2==0.22.0
 humanize==4.10.0
 idna==3.7
 inflection==0.5.1
+jmespath==1.0.1
 kombu==5.4.2
 mccabe==0.7.0
 oauth2client==4.1.3
 oauthlib==3.2.2
 packaging==24.1
+pillow==11.0.0
 prometheus_client==0.21.0
 promise==2.3
 prompt_toolkit==3.0.47
@@ -60,6 +65,7 @@ redis==5.0.8
 requests==2.32.3
 requests-oauthlib==2.0.0
 rsa==4.9
+s3transfer==0.10.3
 six==1.16.0
 SQLAlchemy==2.0.35
 sqlparse==0.5.1
